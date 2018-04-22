@@ -7,6 +7,7 @@ from scipy import sparse
 from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
 import pickle
+from sklearn.decomposition import TruncatedSVD
 
 def save_obj(obj, name ):
     with open('obj/'+ name + '.pkl', 'wb') as f:
@@ -40,6 +41,9 @@ for playlist in slice['playlists']:
 v = DictVectorizer(sparse=True)
 X = csr_matrix.transpose(v.fit_transform(playlist_vs_artists))
 print 'Vectorized!'
+svd = TruncatedSVD(n_components=100)
+X = svd.fit_transform(X)
+print 'Reduced!'
 neighbor = NearestNeighbors(n_neighbors=21, metric='cosine')
 neighbor.fit(X)
 print X
