@@ -1,23 +1,17 @@
 import pickle
 
-class predictSongPair(object):
+class RecommendSong(object):
 
+    def load_obj(self,name ):
+        with open('obj/' + name + '.pkl', 'rb') as f:
+            return pickle.load(f)
 
     def __init__(self):
         self.songMatrix=self.load_obj("Recommended_Songs_full")
         self.songsData =self.load_obj("Songs_Data")
         print "Recommendation Data Loaded for Song Pairs"
 
-    def load_obj(self,name ):
-        with open('obj/' + name + '.pkl', 'rb') as f:
-            return pickle.load(f)
-
-    def save_obj(self, obj, name ):
-        with open('obj/'+ name + '.pkl', 'wb') as f:
-            pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
-
-
-    def predict(self,songs):
+    def get_songs(self,songs):
         ans = []
         for song in range(len(songs)):
             if self.songMatrix.get(song,None)!=None:
@@ -29,4 +23,11 @@ class predictSongPair(object):
                 ans.append(temp)
             else:
                 ans.append([])
-        return ans
+
+        retVal = []
+        for i in range(99):
+            for j in range(len(ans)):
+                if j < len(ans[j]): retVal.append(ans[j][i])
+                if len(retVal) >= 500: break
+            if len(retVal) >= 500: break
+        return retVal
