@@ -9,13 +9,14 @@ def load_obj(name):
         return pickle.load(f)
 
 songsData = load_obj('Songs_Data')
+print songsData[0]
 inv_songsData = {v:k for k,v in songsData.items()}
 Popular = RecommendPopular()
 Artist = RecommendArtist()
 Songs = RecommendSong()
 
 output = open('submission.csv', 'w')
-output.write("team_info,***team_name***,main,***email***\n")
+output.write("team_info,Itachi_Uchiha,main,kaushik.raju@tamu.edu\n")
 
 most_popular_songs = Popular.get_most_popular()
 fill_with_popular = {0 : 500, 1 : 350, 5 : 150, 10 : 50}
