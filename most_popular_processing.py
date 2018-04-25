@@ -8,12 +8,15 @@ def save_obj(obj, name ):
     with open('obj/'+ name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
+def load_obj(name):
+    with open('obj/' + name + '.pkl', 'rb') as f:
+        return pickle.load(f)
+
 song_playlist_count, song_follower_count = defaultdict(int), defaultdict(int)
 max_playlist_count, max_follower_count = 0, 0
 song_to_artist = {}
-
-song_count, start = 0, 0
-songsData = {}
+start = 0
+songsData = load_obj('Songs_Data')
 
 for i in range(1000):
     end = start + 999
@@ -22,9 +25,6 @@ for i in range(1000):
 
     for playlist in slice['playlists']:
         for song in playlist['tracks']:
-            if song['track_uri'] not in songsData:
-                songsData[song['track_uri']] = song_count
-                song_count += 1
             index = songsData[song['track_uri']]
             song_playlist_count[index] += 1
             song_follower_count[index] += playlist['num_followers']
